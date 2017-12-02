@@ -1,0 +1,144 @@
+<!--Dileny Tech Front End_Task  Version1.0 3/12/2017-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> DilenyTech_FrontEnd Task </title>
+    <link rel="icon" type="image/png" href="title_icon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="FrontEndTask.css" rel="stylesheet">
+    <script src="FrontEndTask.js"></script>
+    
+</head>
+
+<body>
+    <div class="page-wrap">
+
+<canvas id="canvas" width="758" height="440"></canvas>
+
+<img src = "logo.png" alt = "DilenyTech Logo" width="187" height="87" />
+<h1> FrontEnd_Task [Demo] </h1>
+<p1 id="demo"></p1>
+<p2> © 2017 Dileny Technologies and Consultations (DilenyTech) . All Rights Reserved .</p2>
+  
+<div class="icon-bar">
+    <div class="dropdown">
+    <a href="#" title = "Settings"><i class="fa fa-cogs"></i></a>
+    <div class="dropdown-content">
+        
+        <p><label>Fill Color: <input id="fillColor" type="color" value="#F19513"></label></p>
+
+        <p><label>Stroke Color: <input id="strokeColor" type="color" value="#545353"></label></p>
+        
+        <p><label>Line width: <input id="lineWidth" type="range" step="1" min="1" max="50" value="10"></label>
+        </p>
+        <p><label>Font:</label></p>
+           <select id="font"  multiple>   
+           <option value="15px cursive">15px Cursive</option>
+           <option value="30px cursive">30px Cursive</option>
+           <option value="60px cursive">60px Cursive</option>
+           <option value="15px Impact">15px Impact </option>
+           <option value="30px Impact">30px Impact</option>
+           <option value="60px Impact">60px Impact</option>
+           <option value="15px Times New Roman">15px Times New Roman </option>
+           <option value="30px Times New Roman">30px Times New Roman</option>
+           <option value="60px Times New Roman">60px Times New Roman</option></select>
+
+        <p><label>Background Color: <input id="backgroundColor" type="color" value="#FEFDFD" oninput="setbackgroundColorFunction()" ></label></p>
+        <p><label>Background Image: <input type="file" id="imageLoader" name="imageLoader" oninput ="setbackgroundImageFunction()"></label></p>  
+
+    </div>
+
+</div>
+
+   
+    <div class="dropdown">
+
+        <a href="#" title = "Draw By mouse" onclick="drawBymouseFunction()"><i class="fa fa-mouse-pointer "></i></a>
+        <div class="dropdown-content">
+
+        <p><label>Fill: <input id="BymousefillBox" type="checkbox" checked="checked"></label></p>
+
+        <p><input type="radio" name="Bymouseshape" value="line">Line / </p>
+
+        <p><input type="radio" name="Bymouseshape" value="rectangle">Rectangle <span class="fa fa-square-o"></p>
+
+        <p><input type="radio" name="Bymouseshape" value="circle">Circle <span class="fa fa-circle-thin"></span></p>
+
+        <p><input type="radio" name="Bymouseshape" value="pencil">Pencil <span class="fa fa-pencil"></span></p>
+
+        <p><input type="radio" name="Bymouseshape" value="eraser">Eraser <span class="fa fa-eraser"></span></p>
+
+        <p><input type="radio" name="Bymouseshape" value="text">Add Text <span class="fa fa-text-width"></span></p>
+     
+        <pText ><input type="text" id="Text"></pText>
+
+</div>
+    </div>
+
+
+      <div class="dropdown_1">
+
+         <a href="#" title = "Draw Rectangle" onclick=" RectFunction()"><i class="fa fa-square-o"></i></a>
+
+         <div class="dropdown-content_1 ">
+
+            <p><label>Fill: <input id="RectfillBox" type="checkbox" ></label></p>
+
+            <p><label>Width In Pixels: <input type="number" min="0" step="1" id="Width"></label></p>
+
+            <p><label>Height In Pixels:<input type="number" min="0" step="1" id="Lenght"></label></p>
+
+         </div>
+     </div>
+
+
+     <div class="dropdown_1">
+
+         <a href="#" title = "Draw Circle" onclick="CircleFunction()"><i class="fa fa-circle-thin "></i></a>
+
+         <div class="dropdown-content_1 ">
+
+            <p><label>Fill: <input id="CirclefillBox" type="checkbox" ></label></p>
+
+            <p><label>Diameter In Pixels : <input type="number" min="0" step="1" id="Diameter"></label></p>
+
+         </div>
+     </div>
+
+    <div class="dropdown_1">
+         <a href="#" title = "Draw Resize Shape" onclick="drawResizeFunction()"><i class="fa fa-expand"></i></a>
+
+         <div class="dropdown-content_1 ">
+
+            <p><label>Fill: <input id="ResizefillBox" type="checkbox" ></label></p>
+
+            <p ><input type="radio" name="ResizeShape" value="rectangle">Rectangle <span class="fa fa-square-o"></p>
+
+            <p><input type="radio" name="ResizeShape" value="circle">Circle <span class="fa fa-circle-thin"></span></p>
+
+         </div>
+
+    </div>
+
+         <a href="#" title = "Save As Image" id="download" onclick="SaveAsImageFunction()"><i class="fa fa-picture-o"></i></a>
+   
+        <a href="#" id="clear" title = "Clear Canvas" onclick="clearcanvasFunction()"><i class="fa fa-trash" ></i></a>
+
+</div>
+
+   <div class="footer-social-icons">
+    <ul class="social-icons">
+        <li><a href="https://www.facebook.com/Dileny-Tech-298086737209186/?ref=bookmarks" title = "Follow us on Facebook" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
+        <li><a href="https://www.youtube.com/channel/UC-UK9Zmf3dg3lgx_AHWn1sA" title = "Follow us on Youtube" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
+        <li><a href="https://www.linkedin.com/company/dilenytech"  title = "Follow us on Linkedin"class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
+        <li><a href="http://dilenytech.com/"  title="Contact us@dilenytech.com" class="social-icon"> <i class="fa fa-globe"></i></a></li>
+    </ul>
+</div> 
+
+</div>
+</body>
+</html>
+
+
