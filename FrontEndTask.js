@@ -1,5 +1,8 @@
-//Dileny Tech Front End_Task  Version1.0 3/12/2017
-var flag = false;
+//Dileny Tech Front End_Task  Version1.0 5/12/2017
+var Flag = false, 
+    ResizeRect_num = 0,
+    ResizeCircle_num = 0,
+    drawbymouseFlag = false;
 /////////////////////////////////////////////////////////////////////////
 
 //change canvas background color//
@@ -17,7 +20,6 @@ function changeFillStyle() {
 
 fillColor.addEventListener("input", changeFillStyle, false);
 backgroundContext.fillRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
-
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -32,10 +34,7 @@ var img = new Image();
 var reader = new FileReader();
 
 function handleImage(e){
-    
     reader.onload = function(event){
-        
-    
         img.onload = function(){
 //handle image size to fit in canvas//     
         if (img.width<Imagecanvas.width && img.height<Imagecanvas.height ){
@@ -98,7 +97,11 @@ function drawBymouseFunction(){
     BymouseCanvas = document.getElementById('canvas');
     BymouseContext = BymouseCanvas.getContext('2d');
 
-    flag = true;
+    Flag = true;
+    drawbymouseFlag = true;
+    ResizeRect_num = 0;
+    ResizeCircle_num = 0;
+
 //return position of mouse to draw shapes in the same mouse position//
 function getCanvasCoordinates(event) {
     var x = event.clientX - BymouseCanvas.getBoundingClientRect().left,
@@ -124,10 +127,9 @@ function drawLine(position) {
     BymouseContext.stroke();
     BymouseContext.lineCap = "round";
     var lenght = Math.round(Math.sqrt(Math.pow((dragStartLocation.x - position.x), 2) + Math.pow((dragStartLocation.y - position.y), 2)));
-    document.getElementById("demo").innerHTML = "** Lenght = " + " "+lenght+"px . ";
-    
-      
+    document.getElementById("demo").innerHTML = "** Lenght = " + " "+lenght+"px . ";      
 }
+
 
 function drawCircle(position) {
     BymouseContext.fillStyle = fillColor.value;
@@ -259,7 +261,8 @@ function drawBymouse_dragStop(event) {
     var position = getCanvasCoordinates(event);
     drawBymouse(position);
 
-    flag = false;
+    Flag = false;
+    drawbymouseFlag = false;
 }
 
 function changeLineWidth() {
@@ -313,7 +316,9 @@ function RectFunction(){
     RectCanvas = document.getElementById('canvas');
     RectContext = RectCanvas.getContext('2d');
 
-    flag =true;
+    Flag =true;
+    ResizeRect_num = 0;
+    ResizeCircle_num = 0;
 
 function getCanvasCoordinates(event) {
     var x = event.clientX - RectCanvas.getBoundingClientRect().left,
@@ -376,6 +381,11 @@ function Rect_drag(event) {
         position = getCanvasCoordinates(event);
         drawRect(position);
     }
+    if (drawbymouseFlag == true){
+     RectCanvas.removeEventListener('mousedown', Rect_dragStart);
+     RectCanvas.removeEventListener('mousemove', Rect_drag);
+     RectCanvas.removeEventListener('mouseup', Rect_dragStop);
+ }
 }
 
 function Rect_dragStop(event) {
@@ -383,11 +393,7 @@ function Rect_dragStop(event) {
     Rect_restoreSnapshot();
     var position = getCanvasCoordinates(event);
     drawRect(position);
-     RectCanvas.removeEventListener('mousedown', Rect_dragStart);
-     RectCanvas.removeEventListener('mousemove', Rect_drag);
-     RectCanvas.removeEventListener('mouseup', Rect_dragStop);
-     
-     flag = false;
+     Flag = false;
 }
 
 function Rect_init() {
@@ -404,9 +410,7 @@ function Rect_init() {
      strokeColor.addEventListener("input", changeStrokeStyle, false);
   
 }
-
 Rect_init();
-
 }
 /////////////////////////////////////////////////////////////////////////
 
@@ -424,7 +428,9 @@ function CircleFunction(){
     CircleCanvas = document.getElementById('canvas');
     CircleContext = CircleCanvas.getContext('2d');
 
-    flag = true;
+    Flag = true;
+    ResizeRect_num = 0;
+    ResizeCircle_num = 0;
 
 function getCanvasCoordinates(event) {
     var x = event.clientX - CircleCanvas.getBoundingClientRect().left,
@@ -488,6 +494,11 @@ function Circle_drag(event) {
         position = getCanvasCoordinates(event);
         drawCircle(position);
     }
+    if(drawbymouseFlag == true){
+        CircleCanvas.removeEventListener('mousedown', Circle_dragStart);
+        CircleCanvas.removeEventListener('mousemove', Circle_drag);
+        CircleCanvas.removeEventListener('mouseup', Circle_dragStop);
+    }
 }
 
 function Circle_dragStop(event) {
@@ -495,12 +506,7 @@ function Circle_dragStop(event) {
     Circle_restoreSnapshot();
     var position = getCanvasCoordinates(event);
     drawCircle(position);
-
-    CircleCanvas.removeEventListener('mousedown', Circle_dragStart);
-    CircleCanvas.removeEventListener('mousemove', Circle_drag);
-    CircleCanvas.removeEventListener('mouseup', Circle_dragStop);
-    flag = false;
-
+    Flag = false;
 }
 
 function Circle_init() {
@@ -541,6 +547,7 @@ var  ResizeCanvas,
     CornerSize = 8,
     currentHandle = false,
     drag = false;
+    
 
     ResizeCanvas = document.getElementById('canvas');
     ResizeContext = ResizeCanvas.getContext('2d');
@@ -670,33 +677,35 @@ function drawResizeRect_mouseMove(e) {
 
  ResizeShape = document.querySelector('input[type="radio"][name="ResizeShape"]:checked').value;
     
-    if (flag == true || ResizeShape == "circle"){
-
+    if (Flag == true || ResizeShape == "circle"){
     ResizeCanvas.removeEventListener('mousedown', drawResizeRect_mouseDown);
     ResizeCanvas.removeEventListener('mouseup', drawResizeRect_mouseUp);
     ResizeCanvas.removeEventListener('mousemove', drawResizeRect_mouseMove);
-
     }
+    if (ResizeRect_num > 1 && ResizeShape == "rectangle"){
+        document.getElementById("demo").innerHTML = "Rects "+ ResizeRect_num;
+    ResizeCanvas.removeEventListener('mousedown', drawResizeRect_mouseDown);
+    ResizeCanvas.removeEventListener('mouseup', drawResizeRect_mouseUp);
+    ResizeCanvas.removeEventListener('mousemove', drawResizeRect_mouseMove);
+    drawResizeRect_init() ;
+    }  
 }
 
 function drawResizeRect_mouseUp() {
 
     drag = false;
     currentHandle = false;
-
     drawResizeRect();
-
 }
 
 function drawResizeCircle_mouseDown(e) {
   
     if (currentHandle) drag = true;
-    drawResizeCircle();
-  
+    drawResizeCircle(); 
 }
 
 function drawResizeCircle_mouseMove(e) {
-  
+
     var previousHandle = currentHandle;
     if (!drag) currentHandle = getHandle(point(e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
     if (currentHandle && drag) {
@@ -725,12 +734,18 @@ function drawResizeCircle_mouseMove(e) {
 
  ResizeShape = document.querySelector('input[type="radio"][name="ResizeShape"]:checked').value;
 
-if (flag == true || ResizeShape == "rectangle"){
-
+if (Flag == true || ResizeShape == "rectangle"){
    ResizeCanvas.removeEventListener('mousedown', drawResizeCircle_mouseDown);
    ResizeCanvas.removeEventListener('mouseup', drawResizeCircle_mouseUp);
    ResizeCanvas.removeEventListener('mousemove', drawResizeCircle_mouseMove);
 }
+if (ResizeCircle_num > 1 && ResizeShape == "circle"){
+   ResizeCanvas.removeEventListener('mousedown', drawResizeCircle_mouseDown);
+   ResizeCanvas.removeEventListener('mouseup', drawResizeCircle_mouseUp);
+   ResizeCanvas.removeEventListener('mousemove', drawResizeCircle_mouseMove);
+   drawResizeCircle_init();
+}
+
 }
 
 function drawResizeCircle_mouseUp() {
@@ -738,10 +753,10 @@ function drawResizeCircle_mouseUp() {
     drag = false;
     currentHandle = false;
     drawResizeCircle();
+
 }
 
 function drawResizeRect() {
-  
     ResizeContext.clearRect(0, 0, ResizeCanvas.width, ResizeCanvas.height);
     ResizeContext.lineWidth = 2;
     if (ResizefillBox.checked) {
@@ -752,7 +767,7 @@ function drawResizeRect() {
             ResizeContext.strokeRect(rect.x, rect.y, rect.w, rect.h);
 
     }
-    document.getElementById("demo").innerHTML = "** Width = " + " "+rect.w +"px , "+ "Height = " +" "+rect.h +"px . ";
+    document.getElementById("demo").innerHTML = "** Width = " + " "+Math.abs(rect.w) +"px , "+ "Height = " +" "+Math.abs(rect.h) +"px . ";
 
     if (currentHandle) {
         var posHandle = point(0, 0);
@@ -845,7 +860,7 @@ function drawResizeCircle() {
 }
 
 function drawResizeRect_init() {
-
+    ResizeRect_num = ResizeRect_num + 1;
     drawResizeRect();
 
     ResizeCanvas.addEventListener('mousedown', drawResizeRect_mouseDown, false);
@@ -855,9 +870,11 @@ function drawResizeRect_init() {
     fillColor.addEventListener("input", changeFillStyle, false);
     strokeColor.addEventListener("input", changeStrokeStyle, false);   
 
+    
 }
 
 function drawResizeCircle_init() {
+    ResizeCircle_num = ResizeCircle_num + 1 ;
  
     drawResizeCircle();
 
@@ -868,10 +885,11 @@ function drawResizeCircle_init() {
     fillColor.addEventListener("input", changeFillStyle, false);
     strokeColor.addEventListener("input", changeStrokeStyle, false);
 
+
 } 
    
 if (ResizeShape == "rectangle"){
-    
+
     drawResizeRect_init();
 
 }
