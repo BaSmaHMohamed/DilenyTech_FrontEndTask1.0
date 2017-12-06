@@ -1,4 +1,4 @@
-//Dileny Tech Front End_Task  Version1.0 5/12/2017
+//Dileny Tech Front End_Task  Version1.0 6/12/2017
 var Flag = false, 
     ResizeRect_num = 0,
     ResizeCircle_num = 0,
@@ -538,7 +538,7 @@ var  ResizeCanvas,
      ResizeContext,
 
       rect = {
-        x: 150,
+        x: 300,
         y: 100,
         w: 200,
         h: 200,
@@ -564,7 +564,7 @@ function point(x, y) {
         y: y
     };
 }
-
+// dist function return the distance between two points p1,p2//
 function dist(p1, p2) {
   
     return Math.sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
@@ -613,6 +613,7 @@ function drawResizeRect_mouseMove(e) {
     if (!drag) currentHandle = getHandle(point(e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
     if (currentHandle && drag) {
         var mousePos = point(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+//update size of Rect//
         switch (currentHandle) {
             case 'topleft':
                 rect.w += rect.x - mousePos.x;
@@ -710,6 +711,7 @@ function drawResizeCircle_mouseMove(e) {
     if (!drag) currentHandle = getHandle(point(e.pageX - this.offsetLeft, e.pageY - this.offsetTop));
     if (currentHandle && drag) {
         var mousePos = point(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+   //update Circle size//    
         switch (currentHandle) {
               
             case 'left':
